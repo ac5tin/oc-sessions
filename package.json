@@ -6,7 +6,7 @@
   "main": "./.opencode/plugins/oc-sessions.js",
   "license": "MIT",
   "scripts": {
-    "bundle": "bun build src/index.ts --target=node --outfile .opencode/plugins/oc-sessions.js --format esm && bun build src/tui.tsx --target=node --outfile dist/oc-sessions-tui.js --format esm",
+    "bundle": "bun run build.ts",
     "test": "bun test"
   },
   "files": [
