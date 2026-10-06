@@ -1,0 +1,33 @@
+{
+  "name": "oc-sessions",
+  "version": "0.1.0",
+  "description": "Reference other OpenCode chat sessions inline with #ses_... and read them via a read_session tool.",
+  "type": "module",
+  "main": "./.opencode/plugins/oc-sessions.js",
+  "license": "MIT",
+  "scripts": {
+    "bundle": "bun build src/index.ts --target=node --outfile .opencode/plugins/oc-sessions.js --format esm && bun build src/tui.ts --target=node --outfile dist/oc-sessions-tui.js --format esm",
+    "test": "bun test"
+  },
+  "files": [
+    ".opencode/",
+    "dist/",
+    "src/"
+  ],
+  "keywords": [
+    "opencode-plugin",
+    "opencode",
+    "session-reference"
+  ],
+  "exports": {
+    ".": "./.opencode/plugins/oc-sessions.js",
+    "./tui": "./dist/oc-sessions-tui.js"
+  },
+  "devDependencies": {
+    "@opencode/plugin": "2.0.24",
+    "@opentui/core": "^0.5.14",
+    "@opentui/solid": "^0.5.14",
+    "@types/bun": "^1.4.2",
+    "solid-js": "^1.9.15"
+  }
+}
