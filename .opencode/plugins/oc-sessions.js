@@ -8445,8 +8445,12 @@ var src_default = define({
       if (!entry)
         return;
       const refs = entry.refs.filter((id) => id !== event.sessionID).slice(0, MAX_REFS);
+      if (refs.length === 0) {
+        delete event.tools.read_session;
+        return;
+      }
       const key = refs.join(",");
-      if (refs.length === 0 || key === entry.injected)
+      if (key === entry.injected)
         return;
       entry.injected = key;
       const lines = [];
@@ -8473,6 +8477,7 @@ var src_default = define({
     await ctx.tool.transform((editor) => {
       editor.add({
         name: "read_session",
+        options: { codemode: false },
         description: "Fetch a compressed transcript of a referenced chat session by ID (ses_...). Pass a focused query derived from the user's current request.",
         input: {
           type: "object",

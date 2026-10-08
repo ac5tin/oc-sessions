@@ -47,8 +47,13 @@ export default Plugin.define({
       const entry = latest.get(event.sessionID)
       if (!entry) return
       const refs = entry.refs.filter((id) => id !== event.sessionID).slice(0, MAX_REFS)
+      if (refs.length === 0) {
+        // No refs in the latest prompt: keep the tool out of this request.
+        delete event.tools.read_session
+        return
+      }
       const key = refs.join(",")
-      if (refs.length === 0 || key === entry.injected) return
+      if (key === entry.injected) return
       entry.injected = key
 
       const lines: string[] = []
@@ -75,6 +80,8 @@ export default Plugin.define({
     await ctx.tool.transform((editor) => {
       editor.add({
         name: "read_session",
+        // Direct call: Code Mode exposure defaults on, but the context note asks for a direct tool call.
+        options: { codemode: false },
         description:
           "Fetch a compressed transcript of a referenced chat session by ID (ses_...). Pass a focused query derived from the user's current request.",
         input: {
